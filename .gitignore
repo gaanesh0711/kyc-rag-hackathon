@@ -1,0 +1,19 @@
+# Environment variables (API Keys)
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js
+frontend/node_modules/
+frontend/dist/
+package-lock.json
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
