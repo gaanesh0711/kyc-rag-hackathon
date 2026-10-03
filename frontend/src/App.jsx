@@ -2,29 +2,29 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, ArrowLeft, Menu, X } from "lucide-react";
 import Landing from "./components/Landing";
 import Workspace from "./components/Workspace";
+import Simulator from "./components/Simulator";
 import "./App.css";
 
 export default function App() {
-  const [workspace, setWorkspace] = useState(
-    window.location.hash === "#workspace",
-  );
+  const [route, setRoute] = useState(window.location.hash);
+  const workspace = route === "#workspace";
+  const simulator = route === "#simulator";
   const [menu, setMenu] = useState(false);
   useEffect(() => {
     const navigate = () => {
-      if (window.location.hash === "#workspace") setWorkspace(true);
-      else if (!window.location.hash) setWorkspace(false);
+      setRoute(window.location.hash);
       setMenu(false);
-      if (["", "#workspace"].includes(window.location.hash))
+      if (["", "#workspace", "#simulator"].includes(window.location.hash))
         window.scrollTo(0, 0);
     };
     window.addEventListener("hashchange", navigate);
     return () => window.removeEventListener("hashchange", navigate);
   }, []);
   useEffect(() => {
-    document.title = workspace
+    document.title = simulator ? "Regulatory Change Simulator — FinVisors" : workspace
       ? "Research workspace — FinVisors"
       : "FinVisors — Regulatory intelligence, with evidence";
-  }, [workspace]);
+  }, [workspace, simulator]);
 
   return (
     <>
@@ -59,14 +59,17 @@ export default function App() {
           className={menu ? "header-nav open" : "header-nav"}
           aria-label="Main navigation"
         >
-          {workspace ? (
-            <a href="#" className="text-link">
-              <ArrowLeft size={16} /> Overview
-            </a>
+          {workspace || simulator ? (
+            <>
+              <a href="#" className="text-link"><ArrowLeft size={16} /> Overview</a>
+              <a href="#workspace" aria-current={workspace ? "page" : undefined}>Research</a>
+              <a href="#simulator" aria-current={simulator ? "page" : undefined}>Rule simulator</a>
+            </>
           ) : (
             <>
               <a href="#approach">Our approach</a>
               <a href="#coverage">Dataset coverage</a>
+              <a href="#simulator">Rule simulator</a>
               <a className="button button-small" href="#workspace">
                 Open workspace <ArrowUpRight size={16} />
               </a>
@@ -75,7 +78,7 @@ export default function App() {
         </nav>
       </header>
       <main id="main" tabIndex={-1}>
-        {workspace ? <Workspace /> : <Landing />}
+        {simulator ? <Simulator /> : workspace ? <Workspace /> : <Landing />}
       </main>
       <footer className="site-footer">
         <a href="#" className="footer-brand">

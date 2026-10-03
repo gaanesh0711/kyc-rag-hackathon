@@ -22,3 +22,4 @@ Thumbs.db
 # Local verification dependencies and screenshots
 .test-deps/
 .qa/
+.venv/

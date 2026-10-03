@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from rag_chain import get_rag_chain, RetrievalQAChain
+from simulator import dataset_records, dataset_scope, simulate
 
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
@@ -65,6 +66,60 @@ class AskResponse(BaseModel):
     question: str
     answer: str
     sources: List[SourceDetail]
+
+
+class SimulationRequest(BaseModel):
+    rule: str = Field(..., min_length=1, max_length=2000)
+    regulator: Optional[str] = Field(default=None, max_length=200)
+    vertical: Optional[str] = Field(default=None, max_length=200)
+
+
+@app.get("/simulation/options")
+def simulation_options():
+    try:
+        return dataset_scope(dataset_records(initialize_chain()))
+    except Exception:
+        logger.exception("Simulator dataset unavailable")
+        raise HTTPException(status_code=503, detail="The simulator dataset is not ready. Please retry shortly.") from None
+
+
+@app.post("/simulate")
+def simulation(request: SimulationRequest, http_request: Request):
+    rule = request.rule.strip()
+    if not rule:
+        raise HTTPException(status_code=400, detail="Enter a hypothetical rule change.")
+    check_demo_limit(http_request.client.host if http_request.client else "unknown")
+    if not request_slots.acquire(blocking=False):
+        raise HTTPException(status_code=503, detail="The research service is busy. Please retry shortly.")
+    try:
+        try:
+            active_chain = initialize_chain()
+            records = dataset_records(active_chain)
+        except Exception:
+            logger.exception("Simulator initialization failed")
+            raise HTTPException(status_code=503, detail="The simulator dataset is not ready. Please retry shortly.") from None
+        scope = dataset_scope(records)
+        if request.regulator and request.regulator not in scope["regulators"]:
+            raise HTTPException(status_code=400, detail="Select a regulator from the dataset.")
+        if request.vertical and request.vertical not in scope["verticals"]:
+            raise HTTPException(status_code=400, detail="Select a sector from the dataset.")
+        selected = [record for record in records
+                    if (not request.regulator or record["regulator"] == request.regulator)
+                    and (not request.vertical or record["vertical"] == request.vertical)]
+        if not selected:
+            raise HTTPException(status_code=400, detail="No company records match these filters. Broaden the scope.")
+        if len(selected) > 120:
+            raise HTTPException(status_code=400, detail="Select a narrower regulator or sector for this demo.")
+        try:
+            companies = simulate(active_chain, selected, rule)
+        except Exception:
+            logger.exception("Simulation provider failed")
+            raise HTTPException(status_code=502, detail="The provider could not complete the full impact review. Please retry or select a narrower scope.") from None
+        return {"rule": rule, "hypothetical": True, "total_records": scope["total_records"],
+                "reviewed_records": len(selected), "reviewed_companies": len({item["company"] for item in selected}),
+                "regulator": request.regulator, "vertical": request.vertical, "companies": companies}
+    finally:
+        request_slots.release()
 
 
 DIST = ROOT / "frontend" / "dist"

@@ -12,6 +12,26 @@ Chroma store, and asks Gemini to answer from those excerpts. The API returns
 the question, answer, company/regulator/sector metadata, and full retrieved
 excerpts. The frontend renders Markdown without accepting raw HTML.
 
+## Regulatory Change Simulator
+
+Open /#simulator to enter a hypothetical rule or choose a wallet, aggregator,
+or investment-disclosure example. Select a regulator and/or sector, or review
+the whole dataset. Unlike ordinary /ask retrieval, this workflow reviews every
+record in the selected scope using the existing Gemini model. It reports
+potential impact, no clear link, or insufficient evidence with a review action
+and the original company excerpt beside each result. Filters select candidates;
+they do not determine applicability. Examples are hypothetical, not current rules.
+
+GET /simulation/options reads the existing Chroma records and metadata. POST
+/simulate accepts rule, optional regulator, and optional vertical. Structured
+provider responses must cover every selected record exactly once; incomplete
+or invented record IDs are rejected. Demo rate/capacity guards are shared with
+/ask. The client waits up to three minutes. Cancellation stops waiting but may
+not stop provider work. This does not monitor regulatory updates or validate
+legal applicability. The bundled index has 80 records with 76 distinct company
+labels; the interface uses actual dataset counts rather than claiming 80 unique
+companies.
+
 The dataset is a bundled FinVisory research document. This demo does not
 verify identities, screen sanctions, calculate risk scores, accept customer
 uploads, or provide real-time regulatory updates.
@@ -28,6 +48,16 @@ Backend (Python 3.11 or newer recommended):
 Set GEMINI_API_KEY (or GOOGLE_API_KEY) in the root .env, then:
 
     python main.py
+
+On this Windows machine, Smart App Control blocked the unsigned native DLL
+in PyTorch 2.14.1. The official PyTorch 2.13.0 CPU build was verified to work
+with Windows security still enabled. If the same WinError 4551 occurs, stop
+the backend and install this build in the project's virtual environment:
+
+    .\.venv\Scripts\python.exe -m pip install --no-deps torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
+
+Then restart the backend. This fixes the tested local dependency issue;
+other Windows application-control policies may behave differently.
 
 Frontend (Node 22.12 or newer):
 

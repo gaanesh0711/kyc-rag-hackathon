@@ -55,3 +55,32 @@ export async function checkHealth(signal) {
       ? "offline"
       : "warming";
 }
+
+async function simulationRequest(path, signal, body) {
+  if (!apiBase) throw new Error("The demo backend is not connected yet.");
+  const response = await fetch(`${apiBase}${path}`, {
+    signal,
+    ...(body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {}),
+  });
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(typeof data?.detail === "string" ? data.detail : "The simulator could not complete the request. Please retry.");
+  return data;
+}
+
+export async function simulationOptions(signal) {
+  const data = await simulationRequest("/simulation/options", signal);
+  if (!Number.isInteger(data?.total_records) || !Number.isInteger(data?.total_companies) ||
+      ![data.regulators, data.verticals].every(values => Array.isArray(values) && values.every(value => typeof value === "string")))
+    throw new Error("The service returned an unexpected dataset scope.");
+  return data;
+}
+
+export async function runSimulation(input, signal) {
+  const data = await simulationRequest("/simulate", signal, input);
+  if (!data || typeof data.rule !== "string" || data.hypothetical !== true || !Number.isInteger(data.reviewed_records) ||
+      !Array.isArray(data.companies) || data.companies.length !== data.reviewed_records ||
+      !data.companies.every(item => item && ["record_id", "company", "regulator", "vertical", "document", "excerpt", "reasoning", "review_action"].every(key => typeof item[key] === "string") &&
+        ["potential_impact", "no_clear_link", "insufficient_evidence"].includes(item.status)))
+    throw new Error("The service returned an incomplete impact review. Please retry.");
+  return data;
+}
