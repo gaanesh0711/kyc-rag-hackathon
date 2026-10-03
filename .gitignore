@@ -1,5 +1,7 @@
 # Environment variables (API Keys)
 .env
+.env.*
+!.env.example
 
 # Python
 __pycache__/
@@ -10,10 +12,14 @@ __pycache__/
 # Node.js
 frontend/node_modules/
 frontend/dist/
-package-lock.json
 
 # IDE & OS
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local verification dependencies and screenshots
+.test-deps/
+.qa/
+.venv/
