@@ -33,13 +33,13 @@ export default function Landing() {
             <em>evidence.</em>
           </h1>
           <p className="hero-description">
-            A clearer starting point for regulatory research. Explore fintech
-            considerations with answers grounded in source records, and keep the
-            evidence in view.
+            Follow official regulatory evidence from document versions to company
+            applicability. Explore changes, compare profiles, and test hypothetical
+            conditions with FinVisors.
           </p>
           <div className="hero-actions">
-            <a href="#workspace" className="button">
-              Explore the workspace <ArrowUpRight size={19} />
+            <a href="#v2/regulations" className="button">
+              Explore regulations <ArrowUpRight size={19} />
             </a>
             <a href="#approach" className="text-link">
               See how it works <ArrowRight size={17} />
@@ -173,7 +173,7 @@ export default function Landing() {
               considerations across Indian fintech sectors.
             </p>
             <a href="#workspace" className="text-link">
-              Explore a regulatory question <ArrowUpRight size={18} />
+              Explore company research <ArrowUpRight size={18} />
             </a>
           </div>
           <ul className="sector-list">
@@ -181,7 +181,6 @@ export default function Landing() {
               <li key={sector}>
                 <span className="sector-number">0{index + 1}</span>
                 {sector}
-                <ArrowUpRight size={16} aria-hidden="true" />
               </li>
             ))}
           </ul>

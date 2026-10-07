@@ -1,0 +1,35 @@
+.regulatory-v2 h1 {font-size:clamp(32px,4vw,48px);font-weight:450;letter-spacing:-1.5px;margin-bottom:12px}
+.v2-intro,.regulatory-v2 section>p {color:var(--muted);line-height:1.8;font-size:14px}
+.v2-guide ol {padding-left:22px;max-width:850px}
+.v2-guide li {margin:10px 0;color:var(--muted)}
+.v2-guide a {color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+.v2-tabs {display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding:20px 0}
+.v2-tabs a {padding:11px 14px;font-size:13px;border-radius:4px}
+.v2-tabs a[aria-current=page] {background:var(--forest);color:var(--paper)}
+.v2-metrics {display:flex;flex-wrap:wrap;gap:24px;padding:28px 0;font-size:12px;color:var(--muted)}
+.v2-metrics strong {display:block;font-size:28px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.v2-card-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.v2-card {padding:24px;border:1px solid var(--line);border-radius:5px;margin-bottom:16px;overflow-wrap:anywhere}
+.v2-card h3 {font-size:19px;line-height:1.5;font-weight:500;margin-top:12px}
+.v2-card p {font-size:13px;line-height:1.8}
+.v2-card .text-button {display:block;margin-top:16px;text-align:left}
+.v2-detail {margin-top:30px;padding-top:24px;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.v2-detail h2 {font-size:24px;font-weight:500}
+.v2-diff {display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.v2-diff>div {min-width:0}
+.regulatory-v2 details {padding:15px 0;border-bottom:1px solid var(--line);font-size:13px;line-height:1.7}
+.regulatory-v2 summary {cursor:pointer;overflow-wrap:anywhere}
+.regulatory-v2 form {max-width:850px;margin:24px 0}
+.regulatory-v2 label {display:block;font-size:13px;margin:16px 0 10px}
+.regulatory-v2 :is(textarea,input:not([type=checkbox]),select) {width:100%;padding:13px;border:1px solid var(--line);border-radius:5px;background:var(--paper);color:var(--ink);font:inherit;font-size:14px;min-width:0}
+.regulatory-v2 textarea {min-height:120px;resize:vertical;line-height:1.7}
+.regulatory-v2 .button {margin-top:18px}
+.v2-form-row {display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.v2-form-row>div {min-width:0}
+.regulatory-v2 .v2-checkbox {display:flex;gap:10px;align-items:center;line-height:1.6}
+.v2-outcome {padding:16px;border-left:3px solid var(--line);margin-top:15px;font-size:13px;line-height:1.7}
+.outcome-matches_conditions {border-color:#548455}
+.outcome-unknown {border-color:#b58737}
+.v2-empty {border:1px dashed var(--line);padding:25px;border-radius:5px;line-height:1.8}
+.v2-working {position:fixed;bottom:18px;right:18px;background:var(--forest);color:var(--paper);padding:16px;border-radius:5px;font-size:13px}
+@media(max-width:700px) {.v2-card-grid,.v2-diff,.v2-form-row {grid-template-columns:1fr}.v2-card {padding:18px}.v2-tabs a {padding:10px;font-size:12px}.v2-metrics {gap:18px}.v2-metrics>span {width:calc(50% - 18px)}}
