@@ -35,11 +35,11 @@ export default function Landing() {
           <p className="hero-description">
             Follow official regulatory evidence from document versions to company
             applicability. Explore changes, compare profiles, and test hypothetical
-            conditions with FinVisors KYC RAG V2.
+            conditions with FinVisors.
           </p>
           <div className="hero-actions">
             <a href="#v2/regulations" className="button">
-              Explore the workspace <ArrowUpRight size={19} />
+              Explore regulations <ArrowUpRight size={19} />
             </a>
             <a href="#approach" className="text-link">
               See how it works <ArrowRight size={17} />

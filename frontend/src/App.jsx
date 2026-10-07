@@ -29,7 +29,7 @@ export default function App() {
     return () => window.removeEventListener("hashchange", navigate);
   }, []);
   useEffect(() => {
-    document.title = v2 ? "FinVisors — KYC RAG V2" : simulator ? "Regulatory Change Simulator — FinVisors" : workspace
+    document.title = v2 ? "Regulatory research — FinVisors" : simulator ? "Regulatory Change Simulator — FinVisors" : workspace
       ? "Research workspace — FinVisors"
       : "FinVisors — Regulatory intelligence, with evidence";
   }, [workspace, simulator, v2]);
@@ -54,7 +54,7 @@ export default function App() {
           FinVisors<span className="wordmark-dot">.</span>
         </a>
         <span className="header-divider" aria-hidden="true" />
-        <span className="header-tag">KYC RAG V2</span>
+        <span className="header-tag">Research demo</span>
         <button
           className="menu-toggle icon-button"
           aria-label={menu ? "Close navigation" : "Open navigation"}
@@ -71,7 +71,7 @@ export default function App() {
             <>
               <a href="#" className="text-link"><ArrowLeft size={16} /> Overview</a>
               <a href="#workspace" aria-current={workspace ? "page" : undefined}>Company research</a>
-              <a href="#v2/regulations" aria-current={v2 ? "page" : undefined}>V2 workspace</a>
+              <a href="#v2/regulations" aria-current={v2 ? "page" : undefined}>Regulatory research</a>
             </>
           ) : (
             <>
@@ -79,7 +79,7 @@ export default function App() {
               <a href="#coverage">Dataset coverage</a>
               <a href="#v2/scenario">Rule simulator</a>
               <a className="button button-small" href="#v2/regulations">
-                Open workspace <ArrowUpRight size={16} />
+                Explore regulations <ArrowUpRight size={16} />
               </a>
             </>
           )}

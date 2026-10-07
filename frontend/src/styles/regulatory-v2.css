@@ -1,5 +1,8 @@
 .regulatory-v2 h1 {font-size:clamp(32px,4vw,48px);font-weight:450;letter-spacing:-1.5px;margin-bottom:12px}
 .v2-intro,.regulatory-v2 section>p {color:var(--muted);line-height:1.8;font-size:14px}
+.v2-guide ol {padding-left:22px;max-width:850px}
+.v2-guide li {margin:10px 0;color:var(--muted)}
+.v2-guide a {color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 .v2-tabs {display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding:20px 0}
 .v2-tabs a {padding:11px 14px;font-size:13px;border-radius:4px}
 .v2-tabs a[aria-current=page] {background:var(--forest);color:var(--paper)}
