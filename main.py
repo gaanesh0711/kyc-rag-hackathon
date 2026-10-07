@@ -19,7 +19,7 @@ from simulator import dataset_records, dataset_scope, simulate
 ROOT = Path(__file__).resolve().parent
 load_dotenv(ROOT / ".env")
 logger = logging.getLogger(__name__)
-app = FastAPI(title="FinVisors Regulatory Research API", version="1.1.0")
+app = FastAPI(title="FinVisors KYC RAG V2", version="2.0.0")
 origins = [origin.strip() for origin in os.getenv(
     "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
 ).split(",") if origin.strip()]
@@ -32,6 +32,21 @@ request_slots = BoundedSemaphore(3)
 rate_lock = Lock()
 # A bounded, per-process demo guard. Use an edge limiter for multiple workers.
 request_counts = OrderedDict()
+
+# V2 evidence lives in its own append-only store; the baseline Chroma index is retained.
+from regulatory.store import Store
+from regulatory.api import router as regulatory_router
+regulatory_store = Store()
+if not regulatory_store.entities():
+    regulatory_store.import_entities(ROOT / "chroma_db" / "chroma.sqlite3")
+
+
+def v2_rate_limit(request):
+    check_demo_limit(request.client.host if request.client else "unknown")
+
+
+app.include_router(regulatory_router(regulatory_store, v2_rate_limit,
+    semantic=os.getenv("V2_SEMANTIC_SEARCH", "false").lower() == "true"))
 
 
 def initialize_chain():

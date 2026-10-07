@@ -33,12 +33,12 @@ export default function Landing() {
             <em>evidence.</em>
           </h1>
           <p className="hero-description">
-            A clearer starting point for regulatory research. Explore fintech
-            considerations with answers grounded in source records, and keep the
-            evidence in view.
+            Follow official regulatory evidence from document versions to company
+            applicability. Explore changes, compare profiles, and test hypothetical
+            conditions with FinVisors KYC RAG V2.
           </p>
           <div className="hero-actions">
-            <a href="#workspace" className="button">
+            <a href="#v2/regulations" className="button">
               Explore the workspace <ArrowUpRight size={19} />
             </a>
             <a href="#approach" className="text-link">

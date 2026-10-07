@@ -1,5 +1,25 @@
 # FinVisors
 
+## KYC RAG V2
+
+This branch adds a separate regulatory evidence layer while preserving the base
+company RAG. Start with [the full PDF assessment](docs/v2/PDF_ASSESSMENT.md) for
+what was built, deferred, and deliberately excluded. Follow
+[V2 operations](docs/v2/OPERATIONS.md) for running both versions side by side,
+official-source monitoring, review approvals and audit export.
+
+V2 includes RBI/SEBI source adapters, immutable document versions and text diffs,
+pending obligation candidates, reviewed entity profiles, deterministic actual
+and hypothetical applicability, symmetric comparison, date-aware official
+passage retrieval, source health and local audit records. The new workspace is
+at /#v2/regulations. Light/dark mode is available in the header.
+
+The current live source sample is SEBI; RBI document fetching encounters an
+access challenge. Imported evidence and company profiles are unreviewed.
+Unknown applicability is intentional until evidence is approved. Monitoring
+requires a running CLI watch process. This is a research foundation, not a
+production-ready compliance decision service.
+
 Public regulatory research demo for compliance, legal, risk, and audit teams.
 The interface uses the Evidence desk direction: forest green, warm ivory,
 readable typography, and retrieved source records beside the answer.

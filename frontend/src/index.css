@@ -2,8 +2,9 @@
 
 :root {
   font-family: "DM Sans", Arial, sans-serif;
-  color: #203a30;
-  background: #f7f6f1;
+  color: var(--ink);
+  background: var(--paper);
+  color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -42,7 +43,8 @@ a {
 button:focus-visible,
 a:focus-visible,
 textarea:focus-visible,
-summary:focus-visible {
+summary:focus-visible,
+select:focus-visible {
   outline: 3px solid #598372;
   outline-offset: 4px;
 }

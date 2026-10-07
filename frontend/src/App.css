@@ -1,5 +1,6 @@
 @import "./styles/landing.css";
 @import "./styles/workspace.css";
+@import "./styles/theme.css";
 
 /* Shared shell and public landing page */
 .content-width {

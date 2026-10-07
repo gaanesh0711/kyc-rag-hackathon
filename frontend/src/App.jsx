@@ -1,30 +1,38 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, ArrowLeft, Menu, X } from "lucide-react";
+import { ArrowUpRight, ArrowLeft, Menu, X, Sun, Moon } from "lucide-react";
 import Landing from "./components/Landing";
 import Workspace from "./components/Workspace";
 import Simulator from "./components/Simulator";
+import RegulatoryV2 from "./components/RegulatoryV2";
 import "./App.css";
 
 export default function App() {
   const [route, setRoute] = useState(window.location.hash);
   const workspace = route === "#workspace";
   const simulator = route === "#simulator";
+  const v2 = route.startsWith("#v2");
   const [menu, setMenu] = useState(false);
+  const [theme, setTheme] = useState(document.documentElement.dataset.theme || "light");
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#111413" : "#f7f6f1");
+    try { localStorage.setItem("finvisors-theme", theme); } catch { /* The toggle also works when storage is unavailable. */ }
+  }, [theme]);
   useEffect(() => {
     const navigate = () => {
       setRoute(window.location.hash);
       setMenu(false);
-      if (["", "#workspace", "#simulator"].includes(window.location.hash))
+      if (["", "#workspace", "#simulator"].includes(window.location.hash) || window.location.hash.startsWith("#v2"))
         window.scrollTo(0, 0);
     };
     window.addEventListener("hashchange", navigate);
     return () => window.removeEventListener("hashchange", navigate);
   }, []);
   useEffect(() => {
-    document.title = simulator ? "Regulatory Change Simulator — FinVisors" : workspace
+    document.title = v2 ? "FinVisors — KYC RAG V2" : simulator ? "Regulatory Change Simulator — FinVisors" : workspace
       ? "Research workspace — FinVisors"
       : "FinVisors — Regulatory intelligence, with evidence";
-  }, [workspace, simulator]);
+  }, [workspace, simulator, v2]);
 
   return (
     <>
@@ -46,7 +54,7 @@ export default function App() {
           FinVisors<span className="wordmark-dot">.</span>
         </a>
         <span className="header-divider" aria-hidden="true" />
-        <span className="header-tag">Regulatory intelligence</span>
+        <span className="header-tag">KYC RAG V2</span>
         <button
           className="menu-toggle icon-button"
           aria-label={menu ? "Close navigation" : "Open navigation"}
@@ -59,26 +67,32 @@ export default function App() {
           className={menu ? "header-nav open" : "header-nav"}
           aria-label="Main navigation"
         >
-          {workspace || simulator ? (
+          {workspace || simulator || v2 ? (
             <>
               <a href="#" className="text-link"><ArrowLeft size={16} /> Overview</a>
-              <a href="#workspace" aria-current={workspace ? "page" : undefined}>Research</a>
-              <a href="#simulator" aria-current={simulator ? "page" : undefined}>Rule simulator</a>
+              <a href="#workspace" aria-current={workspace ? "page" : undefined}>Company research</a>
+              <a href="#v2/regulations" aria-current={v2 ? "page" : undefined}>V2 workspace</a>
             </>
           ) : (
             <>
               <a href="#approach">Our approach</a>
               <a href="#coverage">Dataset coverage</a>
-              <a href="#simulator">Rule simulator</a>
-              <a className="button button-small" href="#workspace">
+              <a href="#v2/scenario">Rule simulator</a>
+              <a className="button button-small" href="#v2/regulations">
                 Open workspace <ArrowUpRight size={16} />
               </a>
             </>
           )}
         </nav>
+        <button className="theme-toggle icon-button" type="button"
+          aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+          title={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+          onClick={() => setTheme(value => value === "dark" ? "light" : "dark")}>
+          {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+        </button>
       </header>
       <main id="main" tabIndex={-1}>
-        {simulator ? <Simulator /> : workspace ? <Workspace /> : <Landing />}
+        {v2 ? <RegulatoryV2 key={route} section={route.split("/")[1] || "regulations"} /> : simulator ? <Simulator /> : workspace ? <Workspace /> : <Landing />}
       </main>
       <footer className="site-footer">
         <a href="#" className="footer-brand">
