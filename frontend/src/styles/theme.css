@@ -12,6 +12,9 @@
 :root[data-theme="dark"] :is(.button,.logo-mark,.skip-link,.impact-filters button[aria-pressed="true"]) {background:var(--forest);color:#111a14}
 :root[data-theme="dark"] .button:hover {background:#c6e2cf}
 :root[data-theme="dark"] .closing-section {background:var(--dark-surface);color:var(--ink)}
+:root[data-theme="dark"] .coverage-section {background:var(--dark-surface);color:var(--ink);border-color:var(--line)}
+:root[data-theme="dark"] .sector-list li {border-color:var(--line)}
+:root[data-theme="dark"] .sector-number {color:var(--forest)}
 :root[data-theme="dark"] .button-ivory {border-color:var(--forest)}
 :root[data-theme="dark"] .impact-status.potential_impact {background:#2a4030;color:#c1dfb7}
 :root[data-theme="dark"] .impact-status.insufficient_evidence {background:#403520;color:#e7d39d}

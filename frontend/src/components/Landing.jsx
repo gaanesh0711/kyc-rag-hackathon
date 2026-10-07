@@ -173,7 +173,7 @@ export default function Landing() {
               considerations across Indian fintech sectors.
             </p>
             <a href="#workspace" className="text-link">
-              Explore a regulatory question <ArrowUpRight size={18} />
+              Explore company research <ArrowUpRight size={18} />
             </a>
           </div>
           <ul className="sector-list">
@@ -181,7 +181,6 @@ export default function Landing() {
               <li key={sector}>
                 <span className="sector-number">0{index + 1}</span>
                 {sector}
-                <ArrowUpRight size={16} aria-hidden="true" />
               </li>
             ))}
           </ul>
